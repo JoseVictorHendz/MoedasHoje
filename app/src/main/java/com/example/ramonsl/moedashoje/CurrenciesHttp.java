@@ -90,11 +90,6 @@ public class CurrenciesHttp {
 
 
 
-
-
-
-
-
             arrayList.add(getCurrenciesFromJson(btc));
             arrayList.add(getCurrenciesFromJson(eur));
             arrayList.add(getCurrenciesFromJson(usd));
@@ -111,7 +106,7 @@ public class CurrenciesHttp {
 
     }
 
-    public static ArrayList<Currencies> loadBooks() {
+    public static ArrayList<Currencies> loadCurrencies() {
         try {
             HttpURLConnection connection = connectar(URL);
             int response = connection.getResponseCode();
