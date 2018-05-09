@@ -30,7 +30,7 @@ public class CurrenciesAdapter extends ArrayAdapter<Currencies> {
 
         View listCurrencies= convertView;
         if(convertView==null) {
-            convertView= LayoutInflater.from(getContext()).inflate(R.layout.currencies_item,null);
+            listCurrencies= LayoutInflater.from(getContext()).inflate(R.layout.currencies_item,null);
 
         }
         TextView name= listCurrencies.findViewById(R.id.txtCoin);
@@ -43,6 +43,6 @@ public class CurrenciesAdapter extends ArrayAdapter<Currencies> {
         variacao.setText(coin.getVariation());
 
 
-        return super.getView(position, convertView, parent);
+        return listCurrencies;
     }
 }

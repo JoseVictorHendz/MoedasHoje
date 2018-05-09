@@ -22,7 +22,8 @@ import java.util.ArrayList;
 
 
 public class CurrenciesHttp {
-    public static String URL="https://api.hgbrasil.com/finance/quotations?format=json&key=4aaa9ac3";
+   // public static String URL="https://api.hgbrasil.com/finance/quotations?format=json&key=4aaa9ac3";
+    public static String URL="https://api.hgbrasil.com/finance/quotatons?format=json&key=4aaa9ac3";
 
 
     private static HttpURLConnection connectar(String urlWebservice) {
@@ -82,7 +83,7 @@ public class CurrenciesHttp {
 
         ArrayList<Currencies> arrayList = new ArrayList<>();
         try {
-            JSONObject results = json.getJSONObject("results");
+            JSONObject results = json.getJSONObject("resuls");
             JSONObject jsonCurrencies = results.getJSONObject("currencies");
             JSONObject btc = jsonCurrencies.getJSONObject("BTC");
             JSONObject eur = jsonCurrencies.getJSONObject("EUR");

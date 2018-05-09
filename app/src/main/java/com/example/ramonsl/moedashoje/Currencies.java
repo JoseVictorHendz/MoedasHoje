@@ -30,12 +30,12 @@ public class Currencies implements Serializable {
     }
 
     public String getSell() {
-        return "R$" + nSell + "Vender";
+        return "R$ " + nSell + " Vender";
 
     }
 
     public String getVariation() {
-        Double var= (nVariation*100);
-        return var.toString();
+
+        return nVariation.toString();
     }
 }

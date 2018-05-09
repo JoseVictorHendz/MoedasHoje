@@ -8,6 +8,7 @@
     tools:context="com.example.ramonsl.moedashoje.MainActivity">
 
     <ListView android:layout_margin="8dp"
+        android:id="@+id/listCoins"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_weight="10" />
