@@ -89,8 +89,6 @@ public class CurrenciesHttp {
             JSONObject eur = jsonCurrencies.getJSONObject("EUR");
             JSONObject usd = jsonCurrencies.getJSONObject("USD");
 
-
-
             arrayList.add(getCurrenciesFromJson(btc));
             arrayList.add(getCurrenciesFromJson(eur));
             arrayList.add(getCurrenciesFromJson(usd));
