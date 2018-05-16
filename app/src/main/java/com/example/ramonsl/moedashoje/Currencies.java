@@ -35,7 +35,6 @@ public class Currencies implements Serializable {
     }
 
     public String getVariation() {
-
         return nVariation.toString();
     }
 }

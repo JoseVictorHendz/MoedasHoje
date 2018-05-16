@@ -5,7 +5,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,9 +20,9 @@ import java.util.ArrayList;
  */
 
 
-public class CurrenciesHttp {
+public class ServicesHttp {
    // public static String URL="https://api.hgbrasil.com/finance/quotations?format=json&key=4aaa9ac3";
-    public static String URL="https://api.hgbrasil.com/finance/quotatons?format=json&key=4aaa9ac3";
+    public static String URL="https://api.hgbrasil.com/finance/quotations?format=json&key=4aaa9ac3";
 
 
     private static HttpURLConnection connectar(String urlWebservice) {
@@ -76,25 +75,18 @@ public class CurrenciesHttp {
     }
 
 
-    public static ArrayList<Currencies> readJson(JSONObject json) {
-
-
-
+    public static ArrayList<Currencies> readJsonCurrencie(JSONObject json) {
 
         ArrayList<Currencies> arrayList = new ArrayList<>();
         try {
-            JSONObject results = json.getJSONObject("resuls");
+            JSONObject results = json.getJSONObject("results");
             JSONObject jsonCurrencies = results.getJSONObject("currencies");
             JSONObject btc = jsonCurrencies.getJSONObject("BTC");
             JSONObject eur = jsonCurrencies.getJSONObject("EUR");
             JSONObject usd = jsonCurrencies.getJSONObject("USD");
-
             arrayList.add(getCurrenciesFromJson(btc));
             arrayList.add(getCurrenciesFromJson(eur));
             arrayList.add(getCurrenciesFromJson(usd));
-
-
-
 
         } catch (JSONException e) {
 
@@ -105,6 +97,28 @@ public class CurrenciesHttp {
 
     }
 
+
+    public static ArrayList<Stocks> readJsonStocks(JSONObject json){
+        ArrayList<Stocks> arrayList = new ArrayList<>();
+
+        try {
+           JSONObject results = json.getJSONObject("results");
+           JSONObject jsonStocks = results.getJSONObject("stocks");
+           JSONObject bovespa = jsonStocks.getJSONObject("IBOVESPA");
+           JSONObject nasdaq = jsonStocks.getJSONObject("NASDAQ");
+            Stocks stocks = new Stocks(bovespa.getString("name"),bovespa.getString("location"),bovespa.getDouble("variation"));
+            Stocks stocks2 = new Stocks(nasdaq.getString("name"),nasdaq.getString("location"),nasdaq.getDouble("variation"));
+            arrayList.add(stocks);
+            arrayList.add(stocks2);
+            return arrayList;
+       }catch (JSONException ex){
+           Log.d("Json",ex.getMessage());
+       }
+
+       return null;
+    }
+
+
     public static ArrayList<Currencies> loadCurrencies() {
         try {
             HttpURLConnection connection = connectar(URL);
@@ -112,7 +126,7 @@ public class CurrenciesHttp {
             if (response == HttpURLConnection.HTTP_OK) {
                 InputStream inputStream = connection.getInputStream();
                 JSONObject json = new JSONObject(bytesParaString(inputStream));
-                ArrayList<Currencies>  currenciesList =readJson(json);
+                ArrayList<Currencies>  currenciesList = readJsonCurrencie(json);
                 return currenciesList;
             }
 
@@ -121,6 +135,31 @@ public class CurrenciesHttp {
         }
         return null;
     }
+
+
+    public static ArrayList<Stocks> loadStocks(){
+
+        try {
+            HttpURLConnection connection = connectar(URL);
+            int response = connection.getResponseCode();
+            if(response==HttpURLConnection.HTTP_OK){
+                InputStream inputStream = connection.getInputStream();
+                JSONObject json = new JSONObject(bytesParaString(inputStream));
+                ArrayList <Stocks> stocksList = readJsonStocks(json);
+                return stocksList;
+            }
+        }catch (Exception ex){
+            Log.d("Json",ex.getMessage());
+        }
+        return null;
+    }
+
+
+
+
+
+
+
     private static String bytesParaString(InputStream inputStream) {
         byte[] buffer = new byte[1024];
         ByteArrayOutputStream bufferzao = new ByteArrayOutputStream();

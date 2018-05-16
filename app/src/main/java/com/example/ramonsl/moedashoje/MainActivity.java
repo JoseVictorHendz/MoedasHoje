@@ -1,9 +1,12 @@
 package com.example.ramonsl.moedashoje;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,17 +19,25 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Currencies> mCurrencies;
     ListView mListCurrencies;
     ArrayAdapter<Currencies> mAdapter;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mListCurrencies = findViewById(R.id.listCoins);
+        Button btn = findViewById(R.id.btnBolsas);
         search();
+
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),StocksActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
-
-
 
 
     private void search() {
@@ -37,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new CurrenciesAdapter(getApplicationContext(), mCurrencies);
         mListCurrencies.setAdapter(mAdapter);
         if (mTask == null) {
-            if (CurrenciesHttp.hasConnected(this)) {
+            if (ServicesHttp.hasConnected(this)) {
                 startDownload();
             } else {
                 Toast.makeText(getApplicationContext(), "Sem conexão...", Toast.LENGTH_LONG).show();
@@ -47,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     public void startDownload() {
         if (mTask == null || mTask.getStatus() != AsyncTask.Status.RUNNING) {
             mTask = new CurrenciesTask();
@@ -55,18 +65,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //INNER CLASS ASICRONA
+    //INNER CLASS ASINCRONA
     class CurrenciesTask extends AsyncTask<Void, Void, ArrayList<Currencies>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //showProgress(true);
             Toast.makeText(getApplicationContext(), "Pronto...", Toast.LENGTH_LONG).show();
         }
 
         @Override
         protected ArrayList<Currencies> doInBackground(Void... strings) {
-            ArrayList<Currencies> coinsList = CurrenciesHttp.loadCurrencies();
+            ArrayList<Currencies> coinsList = ServicesHttp.loadCurrencies();
             return coinsList;
         }
         @Override

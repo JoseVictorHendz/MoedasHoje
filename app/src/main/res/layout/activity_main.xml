@@ -15,7 +15,8 @@
 
 
     <Button
-        android:text="Atualizar Cotações"
+        android:id="@+id/btnBolsas"
+        android:text="Ver Bolsas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>
