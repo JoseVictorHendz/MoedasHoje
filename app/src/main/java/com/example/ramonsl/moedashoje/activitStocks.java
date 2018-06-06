@@ -9,20 +9,19 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-
-public class MainActivity extends AppCompatActivity {
-
-    CurrenciesTask mTask;
-    ArrayList<Currencies> mCurrencies;
-    ListView mListCurrencies;
-    ArrayAdapter<Currencies> mAdapter;
+import java.util.ArrayList;
+public class activitStocks  extends AppCompatActivity {
+    StocksTask sTask;
+    ArrayList<Stocks> sStocks;
+    ListView mListStocks;
+    ArrayAdapter<Stocks> sAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mListCurrencies = findViewById(R.id.listCoins);
+        mListStocks = findViewById(R.id.listStocks);
         search();
     }
 
@@ -30,33 +29,33 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void search() {
-        if (mCurrencies == null) {
-            mCurrencies = new ArrayList<Currencies>();
+        if (sStocks == null) {
+            sStocks = new ArrayList<Stocks>();
         }
 
-        mAdapter = new CurrenciesAdapter(getApplicationContext(), mCurrencies);
-        mListCurrencies.setAdapter(mAdapter);
-        if (mTask == null) {
+        sAdapter = new StocksAdapter(getApplicationContext(), sStocks);
+        mListStocks.setAdapter(sAdapter);
+        if (sTask == null) {
             if (CurrenciesHttp.hasConnected(this)) {
                 startDownload();
             } else {
                 Toast.makeText(getApplicationContext(), "Sem conexão...", Toast.LENGTH_LONG).show();
             }
-        } else if (mTask.getStatus() == AsyncTask.Status.RUNNING) {
+        } else if (sTask.getStatus() == AsyncTask.Status.RUNNING) {
             Toast.makeText(getApplicationContext(), "......", Toast.LENGTH_LONG).show();
         }
     }
 
 
     public void startDownload() {
-        if (mTask == null || mTask.getStatus() != AsyncTask.Status.RUNNING) {
-            mTask = new CurrenciesTask();
-            mTask.execute();
+        if (sTask == null || sTask.getStatus() != AsyncTask.Status.RUNNING) {
+            sTask = new StocksTask();
+            sTask.execute();
         }
     }
 
     //INNER CLASS ASICRONA
-    class CurrenciesTask extends AsyncTask<Void, Void, ArrayList<Currencies>> {
+    class StocksTask extends AsyncTask<Void, Void, ArrayList<Stocks>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -65,22 +64,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected ArrayList<Currencies> doInBackground(Void... strings) {
-            ArrayList<Currencies> coinsList = CurrenciesHttp.loadCurrencies();
-            return coinsList;
+        protected ArrayList<Stocks> doInBackground(Void... strings) {
+            ArrayList<Stocks> bolsaList = CurrenciesHttp.loadStocks();
+            return bolsaList;
         }
         @Override
-        protected void onPostExecute(ArrayList<Currencies> coins) {
+        protected void onPostExecute(ArrayList<Stocks> coins) {
             super.onPostExecute(coins);
             //     showProgress(false);
             if (coins != null) {
-                mCurrencies.clear();
-                mCurrencies.addAll(coins);
-                mAdapter.notifyDataSetChanged();
+                sStocks.clear();
+                sStocks.addAll(coins);
+                sAdapter.notifyDataSetChanged();
             } else {
 
                 Toast.makeText(getApplicationContext(), "Buscando...", Toast.LENGTH_LONG).show();
             }
         }
     }
+
 }

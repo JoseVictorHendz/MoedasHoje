@@ -2,10 +2,6 @@ package com.example.ramonsl.moedashoje;
 
 import java.io.Serializable;
 
-/**
- * Created by ramonsl on 08/05/2018.
- */
-
 public class Currencies implements Serializable {
 
 
@@ -35,6 +31,7 @@ public class Currencies implements Serializable {
     }
 
     public String getVariation() {
+
         return nVariation.toString();
     }
 }
