@@ -106,8 +106,8 @@ public class ServicesHttp {
            JSONObject jsonStocks = results.getJSONObject("stocks");
            JSONObject bovespa = jsonStocks.getJSONObject("IBOVESPA");
            JSONObject nasdaq = jsonStocks.getJSONObject("NASDAQ");
-            Stocks stocks = new Stocks(bovespa.getString("name"),bovespa.getString("location"),bovespa.getDouble("variation"));
-            Stocks stocks2 = new Stocks(nasdaq.getString("name"),nasdaq.getString("location"),nasdaq.getDouble("variation"));
+            Stocks stocks = new Stocks(bovespa.getString("name"),bovespa.getString("location"),bovespa.getString("variation"));
+            Stocks stocks2 = new Stocks(nasdaq.getString("name"),nasdaq.getString("location"),nasdaq.getString("variation"));
             arrayList.add(stocks);
             arrayList.add(stocks2);
             return arrayList;
